@@ -34,10 +34,24 @@ const newestPerLine = (releases) =>
     return !current || isNewer(release.parts, current.parts) ? newest.set(release.key, release) : newest
   }, new Map())
 
+const LATEST = 'latest'
+
+const aliasSpecOf = ({ module, relative }, component) => `${LATEST}@${component}:${module}:${relative}`
+
+const aliasLatest = (contentCatalog, component) => {
+  const { name, latest } = component
+  return latest.prerelease
+    ? []
+    : contentCatalog
+        .findBy({ component: name, version: latest.version, family: 'page' })
+        .map((page) => contentCatalog.registerPageAlias(aliasSpecOf(page.src, name), page))
+}
+
 /**
  * Publishes the newest `X.Y.Z` tag of each major line (each minor line below
  * 1.0) as `<line>.x` and every branch as the prerelease `next`. Drops all
- * other tags. Config: `unversioned`, component names to leave untouched.
+ * other tags. Redirects `/<component>/latest/<page>` to the newest release's
+ * page. Config: `unversioned`, component names to leave untouched.
  */
 function register({ config: { unversioned = [] } }) {
   this.on('contentAggregated', ({ contentAggregate }) => {
@@ -49,6 +63,12 @@ function register({ config: { unversioned = [] } }) {
     const dropped = new Set(versioned.filter((bundle) => reftypeOf(bundle) === 'tag' && !kept.has(bundle)))
     contentAggregate.splice(0, contentAggregate.length, ...contentAggregate.filter((b) => !dropped.has(b)))
   })
+  this.on('contentClassified', ({ contentCatalog }) =>
+    contentCatalog
+      .getComponents()
+      .filter(({ name }) => !unversioned.includes(name))
+      .forEach((component) => aliasLatest(contentCatalog, component))
+  )
 }
 
 module.exports = { register }
