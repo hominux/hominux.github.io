@@ -25,6 +25,9 @@ main, footer { max-width: 44rem; margin: 0 auto; padding: 0 16px; }
 main { padding-top: 4rem; }
 h1 { font-size: 2.5rem; margin: 0; }
 .lead { color: var(--muted); font-size: 1.125rem; margin-top: 0.25rem; }
+.mission { margin-top: 2rem; }
+.mission h2 { margin: 0 0 0.25rem; font-size: 1.25rem; }
+.mission p { margin: 0; }
 .projects { list-style: none; padding: 0; display: grid; gap: 1rem; margin-top: 2.5rem; }
 .projects li { background: var(--card); border-radius: 8px; padding: 1rem 1.25rem; }
 .projects h2 { margin: 0 0 0.25rem; font-size: 1.25rem; }
