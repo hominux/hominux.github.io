@@ -6,6 +6,7 @@ Home page and https://antora.org/[Antora] documentation for the Hominux projects
 
 * `home/` holds the static home page, served at the site root.
 * `antora-playbook.yml` builds the documentation into `build/site/docs`.
+* `extensions/doc-versions.js` publishes the newest tag of each release line as `<line>.x`, and redirects `/docs/<component>/latest/` to the newest release.
 
 == Usage
 
