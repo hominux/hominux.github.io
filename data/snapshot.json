@@ -1,0 +1,146 @@
+[
+  {
+    "description": "A simple archiving and compression library for Java",
+    "language": "Java",
+    "license": "Apache-2.0",
+    "stars": 15,
+    "openIssues": 1,
+    "topics": [
+      "7z",
+      "apache-compress",
+      "archive",
+      "bzip2",
+      "compress",
+      "compress4j",
+      "decompression-bomb",
+      "gzip",
+      "jar",
+      "jarchivelib",
+      "java",
+      "java-library",
+      "path-traversal",
+      "security",
+      "tar",
+      "tar-gz",
+      "zip",
+      "zip-slip"
+    ],
+    "defaultBranch": "main",
+    "releases": [
+      {
+        "tag": "v5.0.0",
+        "date": "2026-10-06T22:53:35Z",
+        "url": "https://github.com/hominux/compress4j/releases/tag/v5.0.0",
+        "excerpt": "Changelog 🚀 Features - 7219e59(https://github.com/hominux/compress4j/commits/7219e59) 🚨 archivers: build entries with EntrySource factories and move the entry types to the top level (306) - Archive…"
+      },
+      {
+        "tag": "v4.0.2",
+        "date": "2026-10-02T21:54:22Z",
+        "url": "https://github.com/hominux/compress4j/releases/tag/v4.0.2",
+        "excerpt": "Changelog 🐛 Fixes - 3f6c290(https://github.com/hominux/compress4j/commits/3f6c290) deps: update dependency org.apache.commons:commons-lang3 to v3.21.0 (277), closes 277(https://github.com/hominux/co…"
+      },
+      {
+        "tag": "v4.0.1",
+        "date": "2026-10-02T18:18:19Z",
+        "url": "https://github.com/hominux/compress4j/releases/tag/v4.0.1",
+        "excerpt": "Changelog 🐛 Fixes - fa59646(https://github.com/hominux/compress4j/commits/fa59646) deploy the relocation POM as its own Central bundle (270), closes 270(https://github.com/hominux/compress4j/issues/…"
+      },
+      {
+        "tag": "v3.1.1",
+        "date": "2026-09-09T10:32:54Z",
+        "url": "https://github.com/hominux/compress4j/releases/tag/v3.1.1",
+        "excerpt": "Changelog 🔀 Merge - e92af0e(https://github.com/compress4j/compress4j/commits/e92af0e) Merge pull request 179 from compress4j/ci/audit_workflows_with_zizmor, closes 179(https://github.com/compress4j/…"
+      },
+      {
+        "tag": "v3.1.0",
+        "date": "2026-07-31T23:41:43Z",
+        "url": "https://github.com/hominux/compress4j/releases/tag/v3.1.0",
+        "excerpt": "Changelog 🚀 Features - d6baa6d(https://github.com/compress4j/compress4j/commits/d6baa6d) bound archive extraction and fix error handler semantics (175), closes 169(https://github.com/compress4j/comp…"
+      }
+    ],
+    "slug": "compress4j",
+    "name": "Compress4J",
+    "tagline": "Java library for compression and archive formats. Successor to the unmaintained jarchivelib.",
+    "logo": "compress4j-logo.png",
+    "docsPath": "/docs/compress4j/latest/",
+    "install": [
+      {
+        "label": "Maven",
+        "lang": "xml",
+        "template": "<dependency>\n  <groupId>com.hominux</groupId>\n  <artifactId>compress4j</artifactId>\n  <version>{{version}}</version>\n</dependency>"
+      },
+      {
+        "label": "Gradle Groovy",
+        "lang": "groovy",
+        "template": "implementation 'com.hominux:compress4j:{{version}}'"
+      },
+      {
+        "label": "Gradle Kotlin",
+        "lang": "kotlin",
+        "template": "implementation(\"com.hominux:compress4j:{{version}}\")"
+      }
+    ]
+  },
+  {
+    "description": "Pact plugin for contract testing Apache Avro messages, written in Rust",
+    "language": "Rust",
+    "license": "MIT",
+    "stars": 16,
+    "openIssues": 0,
+    "topics": [
+      "apache-avro",
+      "avro",
+      "consumer-driven-contracts",
+      "contract-testing",
+      "message-pact",
+      "pact",
+      "pact-plugin",
+      "rust"
+    ],
+    "defaultBranch": "main",
+    "releases": [
+      {
+        "tag": "v0.1.3",
+        "date": "2026-10-03T19:48:10Z",
+        "url": "https://github.com/hominux/pact-avro-plugin/releases/tag/v0.1.3",
+        "excerpt": "What's Changed chore(deps): update taiki-e/install-action action to v2.87.21 by @renovatebot in https://github.com/hominux/pact-avro-plugin/pull/134 fix(ci): let the index PR use a fork held by an or…"
+      },
+      {
+        "tag": "v0.1.2",
+        "date": "2026-10-03T13:06:20Z",
+        "url": "https://github.com/hominux/pact-avro-plugin/releases/tag/v0.1.2",
+        "excerpt": "What's Changed chore: set codeowners to the maintainers team by @austek in https://github.com/hominux/pact-avro-plugin/pull/129 chore: release from the release environment with a maintainer-only prep…"
+      },
+      {
+        "tag": "v0.1.1",
+        "date": "2026-10-02T20:36:14Z",
+        "url": "https://github.com/hominux/pact-avro-plugin/releases/tag/v0.1.1",
+        "excerpt": "What's Changed fix(ci): use JSON-aware version check in smoke-install.sh by @austek in https://github.com/hominux/pact-avro-plugin/pull/121 fix(docs): repoint broken tests symlink in plugin-rs exampl…"
+      },
+      {
+        "tag": "v0.1.0",
+        "date": "2026-09-25T10:33:56Z",
+        "url": "https://github.com/hominux/pact-avro-plugin/releases/tag/v0.1.0",
+        "excerpt": "What's Changed Upgrade Dependencies by @austek in https://github.com/ZirekHQ/pact-avro-plugin/pull/49 Bump brace-expansion from 1.1.11 to 1.1.18 by @dependabotbot in https://github.com/ZirekHQ/pact-a…"
+      },
+      {
+        "tag": "v0.0.6",
+        "date": "2024-08-30T14:25:04Z",
+        "url": "https://github.com/hominux/pact-avro-plugin/releases/tag/v0.0.6",
+        "excerpt": "What's Changed Address pre-requisites by @austek in https://github.com/austek/pact-avro-plugin/pull/37 Bump braces from 3.0.2 to 3.0.3 by @dependabot in https://github.com/austek/pact-avro-plugin/pul…"
+      }
+    ],
+    "slug": "pact-avro-plugin",
+    "name": "Pact Avro Plugin",
+    "tagline": "Pact contract testing plugin for Apache Avro, written in Rust.",
+    "logo": "pact-avro-plugin-logo.png",
+    "docsPath": "/docs/pact-avro-plugin/latest/",
+    "install": [
+      {
+        "label": "Pact CLI",
+        "lang": "bash",
+        "template": "pact-plugin-cli -y install https://github.com/hominux/pact-avro-plugin/releases/tag/v{{version}}"
+      }
+    ]
+  }
+]
