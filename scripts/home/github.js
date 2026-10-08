@@ -31,9 +31,9 @@ const fetchRepo = async (fetchFn, slug, token) => {
     getJson(fetchFn, `${base}/releases?per_page=5`, token),
   ])
   return {
-    description: repo.description,
-    language: repo.language,
-    license: repo.license?.spdx_id,
+    description: repo.description ?? undefined,
+    language: repo.language ?? undefined,
+    license: repo.license?.spdx_id ?? undefined,
     stars: repo.stargazers_count,
     openIssues: repo.open_issues_count,
     topics: repo.topics ?? [],

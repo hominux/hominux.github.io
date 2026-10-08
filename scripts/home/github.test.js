@@ -31,3 +31,10 @@ test('throws on a non-ok response', async () => {
   const fetchFn = async () => ({ ok: false, status: 403, json: async () => ({}) })
   await assert.rejects(fetchRepo(fetchFn, 'x'), /403/)
 })
+
+test('maps null description and language to undefined', async () => {
+  const fetchFn = async (url) => (url.includes('/releases') ? ok([]) : ok({ ...repo, description: null, language: null }))
+  const data = await fetchRepo(fetchFn, 'x')
+  assert.equal(data.description, undefined)
+  assert.equal(data.language, undefined)
+})

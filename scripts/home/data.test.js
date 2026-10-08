@@ -27,3 +27,18 @@ test('fails when both the API and the snapshot are unavailable', async () => {
   const fetchFn = async () => { throw new Error('offline') }
   await assert.rejects(loadProjects({ config, fetchFn, readSnapshot: async () => undefined, writeSnapshot: async () => {} }), /no snapshot/)
 })
+
+const okRepo = async (url) => ({ ok: true, status: 200, json: async () => (url.includes('/releases') ? [] : { description: 'gh desc', topics: [] }) })
+
+test('config values win over live GitHub values', async () => {
+  const withDesc = [{ slug: 'a', description: 'cfg desc' }]
+  const result = await loadProjects({ config: withDesc, fetchFn: okRepo, readSnapshot: async () => undefined, writeSnapshot: async () => {} })
+  assert.equal(result.projects[0].description, 'cfg desc')
+})
+
+test('surfaces a snapshot write error instead of falling back', async () => {
+  await assert.rejects(
+    loadProjects({ config, fetchFn: okRepo, readSnapshot: async () => [{ slug: 'a', ...live }], writeSnapshot: async () => { throw new Error('disk full') } }),
+    /disk full/,
+  )
+})
