@@ -8,6 +8,7 @@
   --border: #d5dbe0;
   --muted: #566069;
   --heading: #1f5686;
+  --logo-filter: drop-shadow(0 0 1px rgba(13, 39, 64, 0.6));
   color-scheme: light dark;
 }
 
@@ -20,6 +21,7 @@
     --panel: #242a30;
     --border: #38414a;
     --muted: #9aa5af;
+    --logo-filter: none;
     color-scheme: dark;
   }
 }
@@ -32,6 +34,7 @@
     --panel: #242a30;
     --border: #38414a;
     --muted: #9aa5af;
+    --logo-filter: none;
     color-scheme: dark;
 }
 
@@ -133,7 +136,7 @@ h2 { margin: 0 0 1.25rem; color: var(--heading); font-size: 1.75rem; }
 .card:hover { transform: translateY(-3px); box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18); }
 .card h3 { margin: 0.5rem 0; }
 .card p { margin: 0.4rem 0; }
-.card-logo { display: block; height: 3rem; width: auto; }
+.card-logo { display: block; height: 3rem; width: auto; filter: var(--logo-filter); }
 
 .badge.version {
   display: inline-block;
