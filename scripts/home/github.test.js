@@ -51,3 +51,7 @@ test('excerpt replaces markdown links with their text', async () => {
 test('excerpt drops bare URLs', async () => {
   assert.equal(await excerptOf('see https://x.test/long/path?a=1 now'), 'see now')
 })
+
+test('excerpt stays linear on unclosed brackets', async () => {
+  assert.ok((await excerptOf('['.repeat(100000))).length <= 200)
+})
