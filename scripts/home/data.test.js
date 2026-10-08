@@ -4,10 +4,11 @@ const { loadProjects } = require('./data')
 
 const config = [{ slug: 'a', name: 'A' }]
 const live = { stars: 1, releases: [] }
+const okRepo = async (url) => ({ ok: !url.endsWith('/latest'), status: url.endsWith('/latest') ? 404 : 200, json: async () => (url.includes('/releases') ? [] : { description: 'gh desc', topics: [] }) })
 
 test('returns live data and writes the snapshot', async () => {
   let written
-  const fetchFn = async (url) => ({ ok: true, status: 200, json: async () => (url.includes('/releases') ? [] : { stargazers_count: 1, topics: [] }) })
+  const fetchFn = okRepo
   const result = await loadProjects({ config, fetchFn, readSnapshot: async () => undefined, writeSnapshot: async (p) => { written = p } })
   assert.equal(result.source, 'live')
   assert.equal(written[0].slug, 'a')
@@ -28,7 +29,6 @@ test('fails when both the API and the snapshot are unavailable', async () => {
   await assert.rejects(loadProjects({ config, fetchFn, readSnapshot: async () => undefined, writeSnapshot: async () => {} }), /no snapshot/)
 })
 
-const okRepo = async (url) => ({ ok: true, status: 200, json: async () => (url.includes('/releases') ? [] : { description: 'gh desc', topics: [] }) })
 
 test('config values win over live GitHub values', async () => {
   const withDesc = [{ slug: 'a', description: 'cfg desc' }]
@@ -41,4 +41,11 @@ test('surfaces a snapshot write error instead of falling back', async () => {
     loadProjects({ config, fetchFn: okRepo, readSnapshot: async () => [{ slug: 'a', ...live }], writeSnapshot: async () => { throw new Error('disk full') } }),
     /disk full/,
   )
+})
+
+test('a project missing from the snapshot gets safe defaults', async () => {
+  const fetchFn = async () => ({ ok: false, status: 403, json: async () => ({}) })
+  const result = await loadProjects({ config, fetchFn, readSnapshot: async () => [{ slug: 'other' }], writeSnapshot: async () => {} })
+  const { releases, topics, stars, openIssues } = result.projects[0]
+  assert.deepEqual({ releases, topics, stars, openIssues }, { releases: [], topics: [], stars: 0, openIssues: 0 })
 })
