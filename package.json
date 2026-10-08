@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "description": "Builds the documentation site and home page for the Hominux organization",
   "scripts": {
-    "build": "antora --fetch antora-playbook.yml && cp -r home/. build/site/",
-    "serve": "serve build/site"
+    "build": "antora --fetch antora-playbook.yml && npm run build:home",
+    "build:home": "node scripts/build-home.js",
+    "serve": "serve build/site",
+    "test": "node --test \"scripts/**/*.test.js\""
   },
   "devDependencies": {
     "@antora/lunr-extension": "^1.0.0-alpha.10",

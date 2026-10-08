@@ -1,0 +1,66 @@
+'use strict'
+
+const API = 'https://api.github.com'
+const EXCERPT_MAX = 200
+const REQUEST_TIMEOUT_MS = 15000
+
+const headersFor = (token) => ({
+  accept: 'application/vnd.github+json',
+  'user-agent': 'hominux-site-build',
+  ...(token ? { authorization: `Bearer ${token}` } : {}),
+})
+
+const requestInit = (token) => ({
+  signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+  headers: headersFor(token),
+})
+
+const getJson = async (fetchFn, url, token) => {
+  const res = await fetchFn(url, requestInit(token))
+  if (!res.ok) throw new Error(`${url} -> ${res.status}`)
+  return res.json()
+}
+
+const excerpt = (body = '') => {
+  const text = body
+    .replace(/\[([^\]\[]{0,200})\]\([^)]{0,500}\)/g, '$1')
+    .replace(/https?:\/\/\S+/g, '')
+    .replace(/[#*`>[\]]/g, '').replace(/\s+/g, ' ').trim()
+  return text.length > EXCERPT_MAX ? `${text.slice(0, EXCERPT_MAX - 1).trimEnd()}…` : text
+}
+
+const toRelease = (r) => ({ tag: r.tag_name, date: r.published_at, url: r.html_url, excerpt: excerpt(r.body) })
+
+const isPublished = (r) => !r.draft && !r.prerelease
+
+const getOptional = async (fetchFn, url, token) => {
+  const res = await fetchFn(url, requestInit(token))
+  if (res.status === 404) return undefined
+  if (!res.ok) throw new Error(`${url} -> ${res.status}`)
+  return res.json()
+}
+
+const withLatestFirst = (latest, list) =>
+  latest ? [latest, ...list.filter((r) => r.tag_name !== latest.tag_name)] : list
+
+const repoFields = (repo) => ({
+  description: repo.description ?? undefined,
+  language: repo.language ?? undefined,
+  license: repo.license?.spdx_id ?? undefined,
+  stars: repo.stargazers_count,
+  openIssues: repo.open_issues_count,
+  topics: repo.topics ?? [],
+  defaultBranch: repo.default_branch,
+})
+
+const fetchRepo = async (fetchFn, slug, token) => {
+  const base = `${API}/repos/hominux/${slug}`
+  const [repo, list, latest] = await Promise.all([
+    getJson(fetchFn, base, token),
+    getJson(fetchFn, `${base}/releases?per_page=5`, token),
+    getOptional(fetchFn, `${base}/releases/latest`, token),
+  ])
+  return { ...repoFields(repo), releases: withLatestFirst(latest, list.filter(isPublished)).map(toRelease) }
+}
+
+module.exports = { fetchRepo }

@@ -1,0 +1,24 @@
+[
+  {
+    "slug": "compress4j",
+    "name": "Compress4J",
+    "tagline": "Java library for compression and archive formats. Successor to the unmaintained jarchivelib.",
+    "logo": "compress4j-logo.png",
+    "docsPath": "/docs/compress4j/latest/",
+    "install": [
+      { "label": "Maven", "lang": "xml", "template": "<dependency>\n  <groupId>com.hominux</groupId>\n  <artifactId>compress4j</artifactId>\n  <version>{{version}}</version>\n</dependency>" },
+      { "label": "Gradle Groovy", "lang": "groovy", "template": "implementation 'com.hominux:compress4j:{{version}}'" },
+      { "label": "Gradle Kotlin", "lang": "kotlin", "template": "implementation(\"com.hominux:compress4j:{{version}}\")" }
+    ]
+  },
+  {
+    "slug": "pact-avro-plugin",
+    "name": "Pact Avro Plugin",
+    "tagline": "Pact contract testing plugin for Apache Avro, written in Rust.",
+    "logo": "pact-avro-plugin-logo.png",
+    "docsPath": "/docs/pact-avro-plugin/latest/",
+    "install": [
+      { "label": "Pact CLI", "lang": "bash", "template": "pact-plugin-cli -y install https://github.com/hominux/pact-avro-plugin/releases/tag/v{{version}}" }
+    ]
+  }
+]
