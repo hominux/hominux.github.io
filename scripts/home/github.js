@@ -16,7 +16,10 @@ const getJson = async (fetchFn, url, token) => {
 }
 
 const excerpt = (body = '') => {
-  const text = body.replace(/[#*`>[\]]/g, '').replace(/\s+/g, ' ').trim()
+  const text = body
+    .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
+    .replace(/https?:\/\/\S+/g, '')
+    .replace(/[#*`>[\]]/g, '').replace(/\s+/g, ' ').trim()
   return text.length > EXCERPT_MAX ? `${text.slice(0, EXCERPT_MAX - 1).trimEnd()}…` : text
 }
 

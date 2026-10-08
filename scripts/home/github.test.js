@@ -38,3 +38,16 @@ test('maps null description and language to undefined', async () => {
   assert.equal(data.description, undefined)
   assert.equal(data.language, undefined)
 })
+
+const excerptOf = async (body) => {
+  const fetchFn = async (url) => (url.includes('/releases') ? ok([rel('v1', { body })]) : ok(repo))
+  return (await fetchRepo(fetchFn, 'x')).releases[0].excerpt
+}
+
+test('excerpt replaces markdown links with their text', async () => {
+  assert.equal(await excerptOf('fix [abc1234](https://x.test/c/abc1234) thing'), 'fix abc1234 thing')
+})
+
+test('excerpt drops bare URLs', async () => {
+  assert.equal(await excerptOf('see https://x.test/long/path?a=1 now'), 'see now')
+})

@@ -7,6 +7,7 @@
   --panel: #f3f5f7;
   --border: #d5dbe0;
   --muted: #566069;
+  color-scheme: light dark;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -22,7 +23,8 @@
 
 * { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; scroll-padding-top: 4rem; }
+html { scroll-padding-top: 4rem; }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
 
 body {
   margin: 0;
@@ -135,6 +137,7 @@ h2 { margin: 0 0 1.25rem; color: var(--hx-blue); font-size: 1.75rem; }
   cursor: pointer;
 }
 .tabbar button:hover { border-color: var(--hx-blue); }
+.tabbar button[aria-pressed="true"] { background: var(--hx-blue); border-color: var(--hx-blue); color: #fff; }
 
 .snippet { margin: 0 0 1rem; }
 .snippet figcaption { margin-bottom: 0.25rem; color: var(--muted); font-size: 0.85rem; }
@@ -166,7 +169,7 @@ h2 { margin: 0 0 1.25rem; color: var(--hx-blue); font-size: 1.75rem; }
 .site-footer p { margin: 0; }
 
 @media (max-width: 640px) {
-  .site-header { padding-bottom: 0.5rem; }
+  .site-header { position: static; padding-bottom: 0.5rem; }
   .brand { height: 3rem; }
   main > section { padding-top: 2rem; }
   main > #hero { padding: 2.5rem 1rem; }
