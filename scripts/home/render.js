@@ -65,13 +65,14 @@ const community = () => `<ul class="links">${COMMUNITY.map(communityLink).join('
 const head = () => `<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hominux</title><meta name="description" content="${DESCRIPTION}">
 <link rel="canonical" href="https://hominux.com/">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 <link rel="icon" href="/assets/favicon.ico"><link rel="stylesheet" href="/assets/home.css"></head>`
 
 const nav = () => `<nav><a href="#projects">Projects</a><a href="/docs/">Docs</a><a href="#releases">Releases</a><a href="#community">Community</a><a href="https://github.com/hominux">GitHub</a></nav>`
 
 const header = () => `
 <header class="site-header"><a class="brand" href="/"><img src="/assets/hominux-logo.png" alt=""><span>Hominux</span></a>
-${nav()}</header>`
+${nav()}<button type="button" id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode" hidden>◐</button></header>`
 
 const footer = (year) => `<footer class="site-footer"><p>Copyright © ${esc(year)} Hominux.</p></footer>`
 

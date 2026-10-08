@@ -47,3 +47,28 @@ test('no releases and no description still render, detail falls back to tagline'
   assert.match(html, /<section class="detail" id="compress4j">[\s\S]*<p>tag<\/p>/)
   assert.match(html, /id="releases"/)
 })
+
+const page = () => renderPage({ projects: [project()], feed: [], year: 2026 })
+
+test('header has a hidden theme toggle and head restores the theme before paint', () => {
+  const html = page()
+  assert.match(html, /<header class="site-header">[\s\S]*<button[^>]*id="theme-toggle"[^>]*aria-label="Toggle dark mode"[^>]*hidden/)
+  assert.match(html, /<head>[\s\S]*<script>[^\n]*localStorage[^\n]*data-theme[^\n]*<\/script>[\s\S]*<\/head>/)
+})
+
+test('footer carries the license line and policy links', () => {
+  const footer = page().match(/<footer[\s\S]*<\/footer>/)[0]
+  assert.match(footer, /Released under open-source licenses\./)
+  for (const href of ['https://github.com/hominux"', 'SECURITY.md', 'CODE_OF_CONDUCT.md', 'SUPPORT.md']) assert.ok(footer.includes(href), href)
+})
+
+test('community section links issues and discussions', () => {
+  const section = page().match(/<section id="community">[\s\S]*?<\/section>/)[0]
+  assert.match(section, /href="https:\/\/github\.com\/hominux\/compress4j\/discussions">Discussions</)
+  assert.match(section, /href="https:\/\/github\.com\/hominux\/compress4j\/issues">Issues</)
+})
+
+test('meta line omits stars when unknown', () => {
+  const html = renderPage({ projects: [project({ stars: undefined })], feed: [], year: 2026 })
+  assert.doesNotMatch(html, /undefined/)
+})
