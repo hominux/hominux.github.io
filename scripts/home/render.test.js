@@ -72,3 +72,7 @@ test('meta line omits stars when unknown', () => {
   const html = renderPage({ projects: [project({ stars: undefined })], feed: [], year: 2026 })
   assert.doesNotMatch(html, /undefined/)
 })
+
+test('head script only accepts dark or light as the stored theme', () => {
+  assert.ok(page().includes("if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t)"))
+})

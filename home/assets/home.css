@@ -80,6 +80,7 @@ img { max-width: 100%; }
   font: inherit;
   cursor: pointer;
 }
+.theme-toggle[aria-pressed="true"] { background: rgba(255, 255, 255, 0.18); }
 .theme-toggle:hover { background: rgba(255, 255, 255, 0.12); }
 .theme-toggle[hidden] { display: none; }
 :focus-visible { outline: 3px solid #f2b705; outline-offset: 2px; }
