@@ -27,22 +27,34 @@ const toRelease = (r) => ({ tag: r.tag_name, date: r.published_at, url: r.html_u
 
 const isPublished = (r) => !r.draft && !r.prerelease
 
+const getOptional = async (fetchFn, url, token) => {
+  const res = await fetchFn(url, { headers: headersFor(token) })
+  if (res.status === 404) return undefined
+  if (!res.ok) throw new Error(`${url} -> ${res.status}`)
+  return res.json()
+}
+
+const withLatestFirst = (latest, list) =>
+  latest ? [latest, ...list.filter((r) => r.tag_name !== latest.tag_name)] : list
+
+const repoFields = (repo) => ({
+  description: repo.description ?? undefined,
+  language: repo.language ?? undefined,
+  license: repo.license?.spdx_id ?? undefined,
+  stars: repo.stargazers_count,
+  openIssues: repo.open_issues_count,
+  topics: repo.topics ?? [],
+  defaultBranch: repo.default_branch,
+})
+
 const fetchRepo = async (fetchFn, slug, token) => {
   const base = `${API}/repos/hominux/${slug}`
-  const [repo, releases] = await Promise.all([
+  const [repo, list, latest] = await Promise.all([
     getJson(fetchFn, base, token),
     getJson(fetchFn, `${base}/releases?per_page=5`, token),
+    getOptional(fetchFn, `${base}/releases/latest`, token),
   ])
-  return {
-    description: repo.description ?? undefined,
-    language: repo.language ?? undefined,
-    license: repo.license?.spdx_id ?? undefined,
-    stars: repo.stargazers_count,
-    openIssues: repo.open_issues_count,
-    topics: repo.topics ?? [],
-    defaultBranch: repo.default_branch,
-    releases: releases.filter(isPublished).map(toRelease),
-  }
+  return { ...repoFields(repo), releases: withLatestFirst(latest, list.filter(isPublished)).map(toRelease) }
 }
 
 module.exports = { fetchRepo }
