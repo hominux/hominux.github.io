@@ -202,3 +202,6 @@ h2 { margin: 0 0 1.25rem; color: var(--heading); font-size: 1.75rem; }
   main > section { padding-top: 2rem; }
   main > #hero { padding: 2.5rem 1rem; }
 }
+
+.site-footer .links { justify-content: center; margin-top: 0.75rem; }
+.site-footer a { color: #fff; }

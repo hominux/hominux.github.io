@@ -15,7 +15,8 @@ const versionBadge = (project) =>
   latestOf(project) ? `<span class="badge version">${esc(latestOf(project).tag)}</span>` : ''
 
 const metaLine = (project) =>
-  [project.language, project.license, `★ ${project.stars}`].filter(Boolean).map(esc).join(' · ')
+  [project.language, project.license, project.stars === undefined ? undefined : `★ ${project.stars}`]
+    .filter(Boolean).map(esc).join(' · ')
 
 const card = (project) => `
 <article class="card">
@@ -60,7 +61,7 @@ const COMMUNITY = [
 
 const communityLink = ([title, url]) => `<li><a href="${url}">${esc(title)}</a></li>`
 
-const community = () => `<ul class="links">${COMMUNITY.map(communityLink).join('')}</ul>`
+const community = (links) => `<ul class="links">${links.map(communityLink).join('')}</ul>`
 
 const head = () => `<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hominux</title><meta name="description" content="${DESCRIPTION}">
@@ -74,7 +75,10 @@ const header = () => `
 <header class="site-header"><a class="brand" href="/"><img src="/assets/hominux-logo.png" alt=""><span>Hominux</span></a>
 ${nav()}<button type="button" id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode" hidden>◐</button></header>`
 
-const footer = (year) => `<footer class="site-footer"><p>Copyright © ${esc(year)} Hominux.</p></footer>`
+const FOOTER_LINKS = [['GitHub', 'https://github.com/hominux'], ...COMMUNITY.slice(1)]
+
+const footer = (year) => `<footer class="site-footer"><p>Copyright © ${esc(year)} Hominux. Released under open-source licenses.</p>
+<ul class="links">${FOOTER_LINKS.map(communityLink).join('')}</ul></footer>`
 
 const heroSection = () => `
 <section id="hero"><h1>Small tools that fill real gaps</h1><p class="lead">Open-source libraries and tooling for Java and contract testing.</p>
@@ -90,8 +94,13 @@ const quickstartSection = (projects) =>
 const releasesSection = (feed) =>
   `<section id="releases"><h2>Latest releases</h2><ul class="feed">${feed.map(feedItem).join('')}</ul></section>`
 
+const DISCUSS = [
+  ['Discussions', 'https://github.com/hominux/compress4j/discussions'],
+  ['Issues', 'https://github.com/hominux/compress4j/issues'],
+]
+
 const communitySection = () =>
-  `<section id="community"><h2>Community and support</h2>${community()}</section>`
+  `<section id="community"><h2>Community and support</h2>${community([...DISCUSS, ...COMMUNITY])}</section>`
 
 const mainContent = ({ projects, feed }) =>
   `<main>${heroSection()}${projectsSection(projects)}${quickstartSection(projects)}${releasesSection(feed)}${communitySection()}</main>`
