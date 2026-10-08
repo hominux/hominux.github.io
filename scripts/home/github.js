@@ -2,6 +2,7 @@
 
 const API = 'https://api.github.com'
 const EXCERPT_MAX = 200
+const REQUEST_TIMEOUT_MS = 15000
 
 const headersFor = (token) => ({
   accept: 'application/vnd.github+json',
@@ -9,8 +10,13 @@ const headersFor = (token) => ({
   ...(token ? { authorization: `Bearer ${token}` } : {}),
 })
 
+const requestInit = (token) => ({
+  signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+  headers: headersFor(token),
+})
+
 const getJson = async (fetchFn, url, token) => {
-  const res = await fetchFn(url, { headers: headersFor(token) })
+  const res = await fetchFn(url, requestInit(token))
   if (!res.ok) throw new Error(`${url} -> ${res.status}`)
   return res.json()
 }
@@ -28,7 +34,7 @@ const toRelease = (r) => ({ tag: r.tag_name, date: r.published_at, url: r.html_u
 const isPublished = (r) => !r.draft && !r.prerelease
 
 const getOptional = async (fetchFn, url, token) => {
-  const res = await fetchFn(url, { headers: headersFor(token) })
+  const res = await fetchFn(url, requestInit(token))
   if (res.status === 404) return undefined
   if (!res.ok) throw new Error(`${url} -> ${res.status}`)
   return res.json()

@@ -76,3 +76,12 @@ test('a non-404 failure on latest still throws with the status', async () => {
   const fetchFn = route({ latest: { ok: false, status: 500, json: async () => ({}) } })
   await assert.rejects(fetchRepo(fetchFn, 'x'), /500/)
 })
+
+test('every request carries an abort signal', async () => {
+  const signals = []
+  const inner = route()
+  const fetchFn = async (url, init) => (signals.push(init.signal), inner(url))
+  await fetchRepo(fetchFn, 'x')
+  assert.equal(signals.length, 3)
+  assert.ok(signals.every((s) => s instanceof AbortSignal))
+})
